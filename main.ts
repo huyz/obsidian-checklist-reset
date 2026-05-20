@@ -110,6 +110,9 @@ export default class ChecklistReset extends Plugin {
           const selectedText = view.editor.listSelections();
           if (selectedText.length > 0) {
             const selection = selectedText[0];
+            const isCollapsed =
+              selection.anchor.line === selection.head.line &&
+              selection.anchor.ch === selection.head.ch;
             const lineLength = view.editor.getLine(selection.head.line).length;
 
             handleMarkdownAction(
@@ -118,6 +121,10 @@ export default class ChecklistReset extends Plugin {
               "uncheck",
               getMarkdownSelectionToReset(selection, lineLength)
             );
+
+            if (isCollapsed) {
+              view.editor.setCursor(selection.head);
+            }
           }
         }
       },
