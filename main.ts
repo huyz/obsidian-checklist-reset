@@ -108,12 +108,21 @@ export default class ChecklistReset extends Plugin {
         } else if (view instanceof MarkdownView) {
           const selectedText = view.editor.listSelections();
           if (selectedText.length > 0) {
-            handleMarkdownAction(
-              view,
-              this.settings,
-              "uncheck",
-              selectedText[0]
-            );
+            const selection = selectedText[0];
+            const hasSelection =
+              selection.anchor.line !== selection.head.line ||
+              selection.anchor.ch !== selection.head.ch;
+            if (hasSelection) {
+              handleMarkdownAction(view, this.settings, "uncheck", selection);
+            } else {
+              // No text selected: fall back to the current line
+              const cursor = view.editor.getCursor();
+              const lineLength = view.editor.getLine(cursor.line).length;
+              handleMarkdownAction(view, this.settings, "uncheck", {
+                anchor: { line: cursor.line, ch: 0 },
+                head: { line: cursor.line, ch: lineLength },
+              });
+            }
           }
         }
       },
