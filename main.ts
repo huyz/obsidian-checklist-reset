@@ -11,6 +11,7 @@ import { SetAction } from "./src/setChecklistItems";
 import { ChecklistResetSettings } from "src/types";
 import { handleCanvasAction } from "src/handleCanvasAction";
 import { handleMarkdownAction } from "src/handleMarkdownAction";
+import { getMarkdownSelectionToReset } from "src/getMarkdownSelectionToReset";
 
 const DEFAULT_SETTINGS: ChecklistResetSettings = { deleteTextOnReset: "" };
 
@@ -109,20 +110,15 @@ export default class ChecklistReset extends Plugin {
           const selectedText = view.editor.listSelections();
           if (selectedText.length > 0) {
             const selection = selectedText[0];
-            const hasSelection =
-              selection.anchor.line !== selection.head.line ||
-              selection.anchor.ch !== selection.head.ch;
-            if (hasSelection) {
-              handleMarkdownAction(view, this.settings, "uncheck", selection);
-            } else {
-              // No text selected: fall back to the current line
-              const cursor = view.editor.getCursor();
-              const lineLength = view.editor.getLine(cursor.line).length;
-              handleMarkdownAction(view, this.settings, "uncheck", {
-                anchor: { line: cursor.line, ch: 0 },
-                head: { line: cursor.line, ch: lineLength },
-              });
-            }
+            const cursor = view.editor.getCursor();
+            const lineLength = view.editor.getLine(cursor.line).length;
+
+            handleMarkdownAction(
+              view,
+              this.settings,
+              "uncheck",
+              getMarkdownSelectionToReset(selection, cursor, lineLength)
+            );
           }
         }
       },
