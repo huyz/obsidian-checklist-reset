@@ -110,14 +110,13 @@ export default class ChecklistReset extends Plugin {
           const selectedText = view.editor.listSelections();
           if (selectedText.length > 0) {
             const selection = selectedText[0];
-            const cursor = view.editor.getCursor();
-            const lineLength = view.editor.getLine(cursor.line).length;
+            const lineLength = view.editor.getLine(selection.head.line).length;
 
             handleMarkdownAction(
               view,
               this.settings,
               "uncheck",
-              getMarkdownSelectionToReset(selection, cursor, lineLength)
+              getMarkdownSelectionToReset(selection, lineLength)
             );
           }
         }

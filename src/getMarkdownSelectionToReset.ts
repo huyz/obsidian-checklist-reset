@@ -1,8 +1,7 @@
-import { EditorPosition, EditorSelection } from "./types";
+import type { EditorSelection } from "obsidian";
 
 export function getMarkdownSelectionToReset(
   selection: EditorSelection,
-  cursor: EditorPosition,
   lineLength: number
 ): EditorSelection {
   const hasSelection =
@@ -13,8 +12,9 @@ export function getMarkdownSelectionToReset(
     return selection;
   }
 
+  const line = selection.head.line;
   return {
-    anchor: { line: cursor.line, ch: 0 },
-    head: { line: cursor.line, ch: lineLength },
+    anchor: { line, ch: 0 },
+    head: { line, ch: lineLength },
   };
 }

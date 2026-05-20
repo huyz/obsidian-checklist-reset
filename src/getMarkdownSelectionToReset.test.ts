@@ -9,19 +9,16 @@ describe("getMarkdownSelectionToReset", () => {
       head: { line: 1, ch: 8 },
     };
 
-    expect(
-      getMarkdownSelectionToReset(selection, { line: 1, ch: 8 }, 10)
-    ).toEqual(selection);
+    expect(getMarkdownSelectionToReset(selection, 10)).toEqual(selection);
   });
 
-  it("falls back to the full current line when the selection is collapsed", () => {
+  it("falls back to the full selected line when the selection is collapsed", () => {
     expect(
       getMarkdownSelectionToReset(
         {
           anchor: { line: 1, ch: 4 },
           head: { line: 1, ch: 4 },
         },
-        { line: 1, ch: 4 },
         10
       )
     ).toEqual({
