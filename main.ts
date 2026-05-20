@@ -122,7 +122,7 @@ export default class ChecklistReset extends Plugin {
               getMarkdownSelectionToReset(selection, lineLength)
             );
 
-            if (isCollapsed) {
+            if (isCollapsed && selectedText.length === 1) {
               const updatedLineLength = view.editor.getLine(
                 selection.head.line
               ).length;
