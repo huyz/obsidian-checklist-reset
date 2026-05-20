@@ -123,7 +123,13 @@ export default class ChecklistReset extends Plugin {
             );
 
             if (isCollapsed) {
-              view.editor.setCursor(selection.head);
+              const updatedLineLength = view.editor.getLine(
+                selection.head.line
+              ).length;
+              view.editor.setCursor({
+                line: selection.head.line,
+                ch: Math.min(selection.head.ch, updatedLineLength),
+              });
             }
           }
         }
