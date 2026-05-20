@@ -1,10 +1,10 @@
-import { EditorPositionLike, EditorSelectionLike } from "./types";
+import { EditorPosition, EditorSelection } from "./types";
 
 export function getMarkdownSelectionToReset(
-  selection: EditorSelectionLike,
-  cursor: EditorPositionLike,
+  selection: EditorSelection,
+  cursor: EditorPosition,
   lineLength: number
-): EditorSelectionLike {
+): EditorSelection {
   const hasSelection =
     selection.anchor.line !== selection.head.line ||
     selection.anchor.ch !== selection.head.ch;

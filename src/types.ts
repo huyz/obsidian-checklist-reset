@@ -2,12 +2,12 @@ export type ChecklistResetSettings = {
   deleteTextOnReset: string;
 };
 
-export type EditorPositionLike = {
+export type EditorPosition = {
   line: number;
   ch: number;
 };
 
-export type EditorSelectionLike = {
-  anchor: EditorPositionLike;
-  head: EditorPositionLike;
+export type EditorSelection = {
+  anchor: EditorPosition;
+  head: EditorPosition;
 };
