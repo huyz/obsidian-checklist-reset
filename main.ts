@@ -12,6 +12,7 @@ import { ChecklistResetSettings } from "src/types";
 import { handleCanvasAction } from "src/handleCanvasAction";
 import { handleMarkdownAction } from "src/handleMarkdownAction";
 import { getMarkdownSelectionToReset } from "src/getMarkdownSelectionToReset";
+import { restoreCursorAfterReset } from "src/restoreCursorAfterReset";
 
 const DEFAULT_SETTINGS: ChecklistResetSettings = { deleteTextOnReset: "" };
 
@@ -110,9 +111,6 @@ export default class ChecklistReset extends Plugin {
           const selectedText = view.editor.listSelections();
           if (selectedText.length > 0) {
             const selection = selectedText[0];
-            const isCollapsed =
-              selection.anchor.line === selection.head.line &&
-              selection.anchor.ch === selection.head.ch;
             const lineLength = view.editor.getLine(selection.head.line).length;
 
             handleMarkdownAction(
@@ -122,15 +120,7 @@ export default class ChecklistReset extends Plugin {
               getMarkdownSelectionToReset(selection, lineLength)
             );
 
-            if (isCollapsed && selectedText.length === 1) {
-              const updatedLineLength = view.editor.getLine(
-                selection.head.line
-              ).length;
-              view.editor.setCursor({
-                line: selection.head.line,
-                ch: Math.min(selection.head.ch, updatedLineLength),
-              });
-            }
+            restoreCursorAfterReset(view.editor, selection, selectedText.length);
           }
         }
       },
