@@ -1,21 +1,13 @@
-type Position = {
-  line: number;
-  ch: number;
-};
-
-type Selection = {
-  anchor: Position;
-  head: Position;
-};
+import type { EditorPosition, EditorSelection } from "obsidian";
 
 type EditorLike = {
   getLine: (line: number) => string;
-  setCursor: (position: Position) => void;
+  setCursor: (position: EditorPosition) => void;
 };
 
 export function restoreCursorAfterReset(
   editor: EditorLike,
-  selection: Selection,
+  selection: EditorSelection,
   selectionCount: number
 ) {
   const isCollapsed =
