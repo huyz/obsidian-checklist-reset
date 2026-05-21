@@ -42,6 +42,24 @@ describe("restoreCursorAfterReset", () => {
     expect(setCursor).not.toHaveBeenCalled();
   });
 
+  it("does not restore cursor when the selection is not collapsed", () => {
+    const setCursor = vi.fn();
+
+    restoreCursorAfterReset(
+      {
+        getLine: () => "- [ ] do thing",
+        setCursor,
+      },
+      {
+        anchor: { line: 0, ch: 5 },
+        head: { line: 0, ch: 8 },
+      },
+      1
+    );
+
+    expect(setCursor).not.toHaveBeenCalled();
+  });
+
   it("restores the same collapsed cursor column when updated line is longer", () => {
     const setCursor = vi.fn();
 
