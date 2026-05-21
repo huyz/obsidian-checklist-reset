@@ -1,13 +1,13 @@
 import type { EditorPosition, EditorSelection } from "obsidian";
 
 export function shouldRestoreCursorAfterReset(
-  selectedText: EditorSelection[]
+  selections: EditorSelection[]
 ): boolean {
-  if (selectedText.length !== 1) {
+  if (selections.length !== 1) {
     return false;
   }
 
-  const selection = selectedText[0];
+  const selection = selections[0];
   return (
     selection.anchor.line === selection.head.line &&
     selection.anchor.ch === selection.head.ch

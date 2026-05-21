@@ -12,7 +12,16 @@ describe("getMarkdownSelectionToReset", () => {
     expect(getMarkdownSelectionToReset(selection, 10)).toEqual(selection);
   });
 
-  it("falls back to the full selected line when the selection is collapsed", () => {
+  it("returns the original selection for multi-line selections", () => {
+    const selection = {
+      anchor: { line: 1, ch: 2 },
+      head: { line: 3, ch: 0 },
+    };
+
+    expect(getMarkdownSelectionToReset(selection, 10)).toEqual(selection);
+  });
+
+  it("expands a collapsed cursor to a full-line selection", () => {
     expect(
       getMarkdownSelectionToReset(
         {

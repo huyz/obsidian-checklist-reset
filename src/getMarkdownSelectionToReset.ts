@@ -4,11 +4,11 @@ export function getMarkdownSelectionToReset(
   selection: EditorSelection,
   lineLength: number
 ): EditorSelection {
-  const hasSelection =
+  const hasTextSelected =
     selection.anchor.line !== selection.head.line ||
     selection.anchor.ch !== selection.head.ch;
 
-  if (hasSelection) {
+  if (hasTextSelected) {
     return selection;
   }
 
