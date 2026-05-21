@@ -12,8 +12,8 @@ describe("restoreCursorAfterReset", () => {
         setCursor,
       },
       {
-        anchor: { line: 0, ch: 14 },
-        head: { line: 0, ch: 14 },
+        anchor: { line: 0, ch: 20 },
+        head: { line: 0, ch: 20 },
       },
       1
     );
