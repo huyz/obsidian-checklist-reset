@@ -41,4 +41,25 @@ describe("restoreCursorAfterReset", () => {
 
     expect(setCursor).not.toHaveBeenCalled();
   });
+
+  it("restores the same collapsed cursor column when updated line is longer", () => {
+    const setCursor = vi.fn();
+
+    restoreCursorAfterReset(
+      {
+        getLine: () => "- [ ] do thing and then keep writing",
+        setCursor,
+      },
+      {
+        anchor: { line: 0, ch: 6 },
+        head: { line: 0, ch: 6 },
+      },
+      1
+    );
+
+    expect(setCursor).toHaveBeenCalledWith({
+      line: 0,
+      ch: 6,
+    });
+  });
 });
